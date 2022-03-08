@@ -3,7 +3,6 @@ import { Landing } from './pages';
 function App() {
   return (
     <div>
-      <h1>Hello Tickets!!</h1>
       <Landing />
     </div>
   );
