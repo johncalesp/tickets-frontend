@@ -14,6 +14,7 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(getSessionStorage());
   const [errorLogin, setErrorLogin] = useState(false);
   const [errorUpdate, setErrorUpdate] = useState(false);
+  const [updatingUser, setUpdatingUser] = useState(false);
 
   const userLogin = async (email, password) => {
     await axios({
@@ -38,6 +39,7 @@ export const UserProvider = ({ children }) => {
 
   const updateUser = async (person) => {
     const { firstName, lastName, phone, address, city, province } = person;
+    setUpdatingUser(true);
     await axios({
       method: 'post',
       url: `${URL}/api/users/update_user`,
@@ -63,9 +65,11 @@ export const UserProvider = ({ children }) => {
           province,
         });
         setErrorUpdate(false);
+        setUpdatingUser(false);
       })
       .catch((e) => {
         setErrorUpdate(true);
+        setUpdatingUser(false);
         console.log(e);
       });
   };
@@ -82,6 +86,7 @@ export const UserProvider = ({ children }) => {
         userLogin,
         errorLogin,
         errorUpdate,
+        updatingUser,
         userLogout,
         updateUser,
       }}

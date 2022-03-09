@@ -1,3 +1,5 @@
 import Landing from './Landing';
+import Login from './Login';
+import Profile from './Profile';
 
-export { Landing };
+export { Landing, Login, Profile };

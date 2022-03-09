@@ -1,10 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Landing } from './pages';
+import { Landing, Login, Profile } from './pages';
 function App() {
   return (
-    <div>
-      <Landing />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/main/profile" element={<Profile />} />
+      </Routes>
+    </Router>
   );
 }
 
