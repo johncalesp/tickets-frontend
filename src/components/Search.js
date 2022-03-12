@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import styled from 'styled-components';
-
+import Loading from './Loading';
 import { useStatsContext } from '../context/stats_context';
+import { useUserContext } from '../context/user_context';
 
 const Search = () => {
-  const { users } = useStatsContext();
+  const { users, loadTickets, loadingUsers } = useStatsContext();
+  const { user } = useUserContext();
 
   const [selected, setSelected] = useState(-1);
   const [listUsers, setListUsers] = useState(users);
@@ -21,56 +23,68 @@ const Search = () => {
     setListUsers(filteredUsers);
   };
 
+  const handleUserSelection = (userId, firstName, lastName) => {
+    setSelected(userId);
+    loadTickets(user.accessToken, userId, firstName, lastName);
+  };
+
   return (
     <Wrapper>
-      <div className="container">
-        <div className="grid">
-          <div className="item">
-            <TextField
-              id="standard-basic"
-              label="Find User"
-              variant="standard"
-              name="search"
-              placeholder="Name or Lastname"
-              sx={{ width: '100%' }}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="item">
-            <div className="list-users">
-              <div className="engineers">
-                {listUsers.map((user) => {
-                  const { id, firstName, lastName, img, email, isAdmin } = user;
-                  return (
-                    !isAdmin && (
-                      <article
-                        key={id}
-                        className={selected === id ? 'selected' : ''}
-                      >
-                        <img src={img} alt={firstName} />
-                        <div className="card">
-                          <div>
-                            <h4>
-                              {firstName} {lastName}
-                            </h4>
-                            <p>{email}</p>
+      {loadingUsers ? (
+        <Loading />
+      ) : (
+        <div className="container">
+          <div className="grid">
+            <div className="item">
+              <TextField
+                id="standard-basic"
+                label="Find User"
+                variant="standard"
+                name="search"
+                placeholder="Name or Lastname"
+                sx={{ width: '100%' }}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="item">
+              <div className="list-users">
+                <div className="engineers">
+                  {listUsers.map((user) => {
+                    const { id, firstName, lastName, img, email, isAdmin } =
+                      user;
+                    return (
+                      !isAdmin && (
+                        <article
+                          key={id}
+                          className={selected === id ? 'selected' : ''}
+                        >
+                          <img src={img} alt={firstName} />
+                          <div className="card">
+                            <div>
+                              <h4>
+                                {firstName} {lastName}
+                              </h4>
+                              <p>{email}</p>
+                            </div>
+                            <button
+                              className="btn"
+                              onClick={() =>
+                                handleUserSelection(id, firstName, lastName)
+                              }
+                            >
+                              Select
+                            </button>
                           </div>
-                          <button
-                            className="btn"
-                            onClick={() => setSelected(id)}
-                          >
-                            Select
-                          </button>
-                        </div>
-                      </article>
-                    )
-                  );
-                })}
+                        </article>
+                      )
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </Wrapper>
   );
 };
