@@ -23,7 +23,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      navigate('/main/profile');
+      navigate('/main/dashboard');
     }
   });
 
@@ -112,7 +112,7 @@ const Login = () => {
 };
 
 const Wrapper = styled.section`
-  background-color: rgba(96, 130, 182, 0.6);
+  background-color: rgba(210, 105, 30, 0.6);
   height: 100vh;
   line-height: 1.8;
   padding-top: 30px;
@@ -138,8 +138,8 @@ const Wrapper = styled.section`
       cursor: pointer;
       border: #ddd 2px solid;
       :hover {
-        background-color: #5072a7;
-        color: #fff;
+        background-color: #ef7215;
+        color: #000;
       }
     }
     .wrap {
@@ -188,15 +188,6 @@ const Wrapper = styled.section`
 
   .form-group {
     margin-top: 15px;
-    label {
-      display: block;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      border: #ddd 1px solid;
-      border-radius: 5px;
-    }
   }
   .other-users {
     padding: 0.25rem;

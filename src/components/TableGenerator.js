@@ -15,40 +15,40 @@ const TableGenerator = ({ accessToken, identifier, endpoint, columns }) => {
   const loadServerRows = async (identifier, pageNum, accessToken, endpoint) => {
     const url =
       process.env.REACT_APP_BACKEND +
-      `/api/${endpoint}/${identifier}/${Number(pageNum) + 1}`;
+      `/api/${endpoint}/${identifier}/${Number(pageNum) + 1}/${PAGE_SIZE}`;
 
     await axios
-      .get(url, { headers: { Authorization: `Bearer ${accessToken}` } })
+      .get(url, { headers: { 'x-access-token': accessToken } })
       .then((resp) => {
-        if (endpoint === 'invoice_customer') {
-          setRows(
-            resp.data.data.map((item) => {
-              const id = item.InvoiceId;
-              const parsedDate = new Date(item.InvoiceDate).toDateString();
-              return {
-                ...item,
-                InvoiceDate: parsedDate,
-                id,
-              };
-            })
-          );
-        } else if (
-          endpoint === 'tracks_not_owned' ||
-          endpoint === 'tracks_by_customers' ||
-          endpoint === 'tracks_by_invoice'
-        ) {
-          setRows(
-            resp.data.data.map((item) => {
-              const id = item.TrackId;
-              return {
-                ...item,
-                id,
-              };
-            })
-          );
-        }
+        setRows(
+          resp.data.data.map((item) => {
+            let {
+              id,
+              technology,
+              status,
+              openDate,
+              closeDate,
+              satisfactionScore,
+            } = item;
+            openDate = new Date(openDate).toDateString();
+            if (status === 'Close') {
+              closeDate = new Date(closeDate).toDateString();
+            } else {
+              closeDate = 'TBD';
+              satisfactionScore = 'TBD';
+            }
+            return {
+              id,
+              technology,
+              status,
+              openDate,
+              closeDate,
+              satisfactionScore,
+            };
+          })
+        );
         setLoading(false);
-        setTotalNumPages(resp.data.pages);
+        setTotalNumPages(resp.data.numPages);
         setTotalNumItems(resp.data.totalItems);
       })
       .catch((e) => console.log(e));

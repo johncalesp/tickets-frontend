@@ -3,8 +3,10 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Loading } from '../components';
+import { useUserContext } from '../context/user_context';
 
 const Landing = () => {
+  const { setErrorLogin } = useUserContext();
   const [loading, setLoading] = useState(true);
 
   const spinUpBackend = async () => {
@@ -23,6 +25,7 @@ const Landing = () => {
 
   useEffect(() => {
     spinUpBackend();
+    setErrorLogin(false);
   }, []);
 
   return (
@@ -68,7 +71,7 @@ const Wrapper = styled.main`
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.625);
   }
 
   .landing * {
@@ -86,7 +89,7 @@ const Wrapper = styled.main`
     text-align: center;
     h1 {
       font-size: 3rem;
-      color: #d2691e;
+      color: #ff7417;
     }
     p {
       margin-top: 2rem;

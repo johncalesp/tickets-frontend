@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useStatsContext } from '../context/stats_context';
 import Loading from './Loading';
-import { Pie3D } from './charts';
+import { Pie3D, Column3D, Bar3D } from './charts';
 
 const TicketCharts = () => {
   const {
@@ -64,18 +64,22 @@ const TicketCharts = () => {
 
   const arrTicketStatus = Object.values(objTicketStatus);
   const arrTechCount = Object.values(objTechCount);
-  const arrAvgCloseDate = Object.values(objCloseDate).map((item) => {
-    return {
-      ...item,
-      value: item.value.reduce((a, b) => a + b, 0) / item.value.length,
-    };
-  });
-  const arrAvgScore = Object.values(objAvgScore).map((item) => {
-    return {
-      ...item,
-      value: item.value.reduce((a, b) => a + b, 0) / item.value.length,
-    };
-  });
+  const arrAvgCloseDate = Object.values(objCloseDate)
+    .map((item) => {
+      return {
+        ...item,
+        value: item.value.reduce((a, b) => a + b, 0) / item.value.length,
+      };
+    })
+    .sort((a, b) => b.value - a.value);
+  const arrAvgScore = Object.values(objAvgScore)
+    .map((item) => {
+      return {
+        ...item,
+        value: item.value.reduce((a, b) => a + b, 0) / item.value.length,
+      };
+    })
+    .sort((a, b) => b.value - a.value);
   // console.log(arrTicketStatus, arrTechCount, arrAvgCloseDate, arrAvgScore);
 
   return (
@@ -91,7 +95,7 @@ const TicketCharts = () => {
           </div>
           {data.length === 0 && (
             <div className="container">
-              <p>The user does not contain suffient information</p>
+              <p>The user does not contain sufficient information</p>
             </div>
           )}
           {data.length !== 0 && (
@@ -104,13 +108,32 @@ const TicketCharts = () => {
                   />
                 </div>
                 <div className="item">
-                  <h1>Item2</h1>
+                  <Column3D
+                    data={arrTechCount}
+                    title={'Number of Tickets by Library/Framework'}
+                    xlabel={'Library/Framework'}
+                    ylabel={'Count'}
+                  />
                 </div>
                 <div className="item">
-                  <h1>Item3</h1>
+                  <Bar3D
+                    data={arrAvgCloseDate}
+                    title={
+                      'Average Number of days to close a ticket by Library/Framework'
+                    }
+                    ylabel={'Library/Framework'}
+                    xlabel={'Number of days'}
+                  />
                 </div>
                 <div className="item">
-                  <h1>Item4</h1>
+                  <Bar3D
+                    data={arrAvgScore}
+                    title={
+                      'Average Customer Satisfaction Score by Library/Framework (1 - 5 Scale)'
+                    }
+                    ylabel={'Library/Framework'}
+                    xlabel={'Number of Stars'}
+                  />
                 </div>
               </div>
             </div>
@@ -122,6 +145,7 @@ const TicketCharts = () => {
 };
 
 const Wrapper = styled.section`
+  margin-top: 1rem;
   .centered-h2 {
     display: flex;
     align-items: center;
@@ -153,6 +177,9 @@ const Wrapper = styled.section`
   @media (min-width: 500px) {
     .container {
       max-width: 1100px;
+    }
+    .item {
+      max-width: 500px;
     }
     .grid {
       grid-template-columns: repeat(2, 1fr);

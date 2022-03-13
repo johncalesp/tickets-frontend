@@ -7,12 +7,13 @@ import { useUserContext } from '../context/user_context';
 
 const Dashboard = () => {
   const { user } = useUserContext();
-  const { tickets, loadUsers, loadingUsers } = useStatsContext();
+  const { tickets, loadTickets, loadUsers, loadingUsers } = useStatsContext();
 
   useEffect(() => {
     if (user.isAdmin) {
       loadUsers(user.accessToken);
     } else {
+      loadTickets(user.accessToken, user.id, user.firstName, user.lastName);
     }
   }, []);
 

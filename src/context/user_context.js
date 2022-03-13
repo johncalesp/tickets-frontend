@@ -89,6 +89,7 @@ export const UserProvider = ({ children }) => {
         updatingUser,
         userLogout,
         updateUser,
+        setErrorLogin,
       }}
     >
       {children}

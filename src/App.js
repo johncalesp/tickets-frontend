@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Landing, Login, Profile, Dashboard } from './pages';
+import { Landing, Login, Profile, Dashboard, PageTickets } from './pages';
 import { PrivateRoute, NavBar } from './components';
 function App() {
   return (
@@ -28,6 +28,14 @@ function App() {
             element={
               <PrivateRoute>
                 <Dashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="tickets"
+            element={
+              <PrivateRoute>
+                <PageTickets />
               </PrivateRoute>
             }
           />
