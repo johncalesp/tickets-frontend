@@ -14,11 +14,10 @@ const Search = () => {
 
   const handleChange = (e) => {
     const keyword = e.target.value;
-    console.log(keyword);
     const filteredUsers = users.filter(
       (user) =>
-        user.firstName.toLowerCase().includes(keyword) ||
-        user.lastName.toLowerCase().includes(keyword)
+        user.firstName.toLowerCase().includes(keyword.toLowerCase()) ||
+        user.lastName.toLowerCase().includes(keyword.toLowerCase())
     );
     setListUsers(filteredUsers);
   };
