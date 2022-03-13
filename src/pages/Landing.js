@@ -9,6 +9,7 @@ const Landing = () => {
 
   const spinUpBackend = async () => {
     const url = `${process.env.REACT_APP_BACKEND}/api/test`;
+    setLoading(true);
     await axios
       .get(url)
       .then((resp) => {
@@ -19,8 +20,8 @@ const Landing = () => {
         console.log(e);
       });
   };
+
   useEffect(() => {
-    setLoading(true);
     spinUpBackend();
   }, []);
 

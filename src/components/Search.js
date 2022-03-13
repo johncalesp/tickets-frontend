@@ -91,7 +91,7 @@ const Search = () => {
 
 const Wrapper = styled.section`
   .container {
-    max-width: 1100px;
+    max-width: 375px;
     margin-top: 2rem;
     margin-left: auto;
     margin-right: auto;
@@ -108,9 +108,14 @@ const Wrapper = styled.section`
 
   .item {
     margin: 0.5rem;
+    max-width: 370px;
+    overflow: hidden;
   }
 
-  @media (min-width: 420px) {
+  @media (min-width: 500px) {
+    .container {
+      max-width: 1100px;
+    }
     .grid {
       grid-template-columns: repeat(2, 1fr);
     }
