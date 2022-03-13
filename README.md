@@ -12,3 +12,5 @@ Important points:
 3. Use of fusion charts
 4. Use of MUI for tables with pagination
 5. Different visualizations for Admin and Non-admin users
+
+## URL: https://tickets-frontend.netlify.app/
